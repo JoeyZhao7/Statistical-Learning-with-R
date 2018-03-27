@@ -1,0 +1,21 @@
+n=100
+x=rnorm(n)
+e=0.1*rnorm(n)
+y=1-0.1*x+0.05*x^2+0.75*x^3+e
+library(leaps)
+mid=x
+polyx=matrix(1,100,10)
+polyx[,1]=x
+for(i in 2:10)
+{
+mid=mid*x
+polyx[,i]=mid
+}
+polyx
+d1=data.frame(y,polyx)
+View(d1)
+models=regsubsets(y~.,d1)
+a=summary(models)
+a$adjr2
+which.max(a$adjr2)
+coef(models,id=4)
